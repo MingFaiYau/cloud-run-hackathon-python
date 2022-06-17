@@ -22,6 +22,7 @@ from flask import Flask, request
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
+#test
 app = Flask(__name__)
 non_attack_moves = ['F','L','R']
 moves = ['F', 'T', 'L', 'R']
