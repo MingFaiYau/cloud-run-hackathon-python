@@ -29,7 +29,8 @@ def index():
     return "Let the battle begin!"
 
 def convert_arena_state_to_board(arena_state):
-    print(arena_state, type(arena_state))
+    logger.info(arena_state)
+    logger.info(type(arena_state))
     xdim, ydim = arena_state['arena']['dims']
     board = [[0 for _ in range(ydim)] for _ in range(xdim)]
     players = arena_state['arena']['state']
