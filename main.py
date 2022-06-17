@@ -34,7 +34,7 @@ def convert_arena_state_to_board(arena_state):
     logger.info(type(arena_state))
     xdim, ydim = arena_state['arena']['dims']
     board = [[0 for _ in range(ydim)] for _ in range(xdim)]
-    players = arena_state['arena']['state']
+    players = list(arena_state['arena']['state'].values())[0]
     for k, v in players.items():
         x = k['x']
         y = k['y']
