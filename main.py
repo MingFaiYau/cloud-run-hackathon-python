@@ -50,8 +50,6 @@ def check_has_person_in_coord(x, y, board):
         return False
     return board[x][y] != 0
 
-def check_is_hit():
-
 def check_has_person_in_direction_and_range(x, y, dir, board):
     if (dir == 'N'):
         for i in range(1, 4):
