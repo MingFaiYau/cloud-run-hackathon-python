@@ -67,12 +67,15 @@ def check_has_person_in_direction_and_range(x, y, dir, board):
 
 @app.route("/", methods=['POST'])
 def move():
-    logger.info(request.json)
-    arena_state = json.loads(request.data)
-    board = convert_arena_state_to_board(arena_state)
-    me = get_me(arena_state)
-    if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
-        return 'T'
+    try:
+        logger.info(request.json)
+        arena_state = json.loads(request.data)
+        board = convert_arena_state_to_board(arena_state)
+        me = get_me(arena_state)
+        if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
+            return 'T'
+    except Exception:
+        return moves[random.randrange(len(moves))]
     return moves[random.randrange(len(moves))]
 
 if __name__ == "__main__":
