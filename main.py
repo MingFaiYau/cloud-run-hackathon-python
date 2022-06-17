@@ -28,10 +28,49 @@ moves = ['F', 'T', 'L', 'R']
 def index():
     return "Let the battle begin!"
 
+def convert_arena_state_to_board(arena_state):
+    xdim, ydim = arena_state['arena']['dims']
+    board = [[0 for _ in range(ydim)] for _ in range(xdim)]
+    players = arena_state['arena']['state']
+    for k, v in players.items():
+        x = k['x']
+        y = k['y']
+        board[x][y] = players
+    return board
+
+def get_me(arena_state):
+    my_url = arena_state['_links']['self']['href']
+    return arena_state['arena']['state'][my_url]
+
+def check_has_person_in_coord(x, y, board):
+    if (x < 0 or x > len(board[0]) or y < 0 or y > len(board)):
+        return False
+    return board[x][y] != 0
+
+def check_has_person_in_direction_and_range(x, y, dir, board):
+    if (dir == 'N'):
+        for i in range(1, 4):
+            if (check_has_person_in_coord(x, y -i, board)): return True
+    if (dir == 'S'):
+        for i in range(1, 4):
+            if (check_has_person_in_coord(x, y + i, board)): return True
+    if (dir == 'E'):
+        for i in range(1, 4):
+            if (check_has_person_in_coord(x + i, y, board)): return True
+    if (dir == 'W'):
+        for i in range(1, 4):
+            if (check_has_person_in_coord(x - i, y, board)): return True
+    return False
+
+
 @app.route("/", methods=['POST'])
 def move():
-    request.get_data()
     logger.info(request.json)
+    arena_state = request.get_data()
+    board = convert_arena_state_to_board(arena_state)
+    me = get_me(arena_state)
+    if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
+        return 'T'
     return moves[random.randrange(len(moves))]
 
 if __name__ == "__main__":
