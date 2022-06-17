@@ -30,15 +30,14 @@ def index():
     return "Let the battle begin!"
 
 def convert_arena_state_to_board(arena_state):
-    logger.info(arena_state)
-    logger.info(type(arena_state))
+
     xdim, ydim = arena_state['arena']['dims']
     board = [[0 for _ in range(ydim)] for _ in range(xdim)]
-    players = list(arena_state['arena']['state'].values())[0]
-    for k, v in players.items():
-        x = k['x']
-        y = k['y']
-        board[x][y] = players
+    players = list(arena_state['arena']['state'].values())
+    for player in players:
+        x = player['x']
+        y = player['y']
+        board[x][y] = player
     return board
 
 def get_me(arena_state):
