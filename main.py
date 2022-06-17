@@ -30,7 +30,6 @@ def index():
     return "Let the battle begin!"
 
 def convert_arena_state_to_board(arena_state):
-
     xdim, ydim = arena_state['arena']['dims']
     board = [[0 for _ in range(ydim)] for _ in range(xdim)]
     players = list(arena_state['arena']['state'].values())
@@ -48,6 +47,8 @@ def check_has_person_in_coord(x, y, board):
     if (x < 0 or x > len(board[0]) or y < 0 or y > len(board)):
         return False
     return board[x][y] != 0
+
+def check_is_hit():
 
 def check_has_person_in_direction_and_range(x, y, dir, board):
     if (dir == 'N'):
@@ -68,10 +69,11 @@ def check_has_person_in_direction_and_range(x, y, dir, board):
 @app.route("/", methods=['POST'])
 def move():
     try:
-        logger.info(request.json)
         arena_state = json.loads(request.data)
         board = convert_arena_state_to_board(arena_state)
         me = get_me(arena_state)
+        if (me['wasHit']):
+            return 'F'
         if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
             return 'T'
     except Exception:
