@@ -73,6 +73,7 @@ def move():
         arena_state = json.loads(request.data)
         board = convert_arena_state_to_board(arena_state)
         me = get_me(arena_state)
+        logger.info(me)
         if (me['wasHit']):
             return moves[random.randrange(len(non_attack_moves))]
         if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
