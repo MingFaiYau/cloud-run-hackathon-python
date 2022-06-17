@@ -23,6 +23,7 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+non_attack_moves = ['F','L','R']
 moves = ['F', 'T', 'L', 'R']
 
 @app.route("/", methods=['GET'])
@@ -73,7 +74,7 @@ def move():
         board = convert_arena_state_to_board(arena_state)
         me = get_me(arena_state)
         if (me['wasHit']):
-            return moves[random.randrange(len(moves))]
+            return moves[random.randrange(len(non_attack_moves))]
         if (check_has_person_in_direction_and_range(me['x'], me['y'], me['direction'], board)):
             return 'T'
     except Exception:
